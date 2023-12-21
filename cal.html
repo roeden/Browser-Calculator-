@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Calculator</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #e4d6d6;
+        }
+
+        #calculator {
+            width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 5px;
+            background-color: #171847;
+            color: #fff;
+            border-radius: 5px;
+        }
+
+        #calculator h1 {
+            margin-top: 5px;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+
+        input {
+            width: 93%;
+            margin-bottom: 10px;
+            padding: 10px;
+            font-size: 18px;
+            grid-column: span 4;
+            background-color: #e6dfdf;
+            color: #161515;
+            border: 1px solid #777;
+            text-align: right;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #479b36;
+            color: #fff;
+            border: 1px solid #999;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover,
+        button.pressed {
+            background-color: #f32c09; /* Change the background color on hover or press */
+        }
+
+        @media only screen and (max-width: 600px) {
+            #calculator {
+                width: 50%;
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="calculator">
+        <h1>CASIO</h1>
+        <input type="text" id="display" disabled>
+        <button onclick="clearDisplay()" data-key="C" class="calculator-button">C</button>
+        <button onclick="appendValue('7')" data-key="7" class="calculator-button">7</button>
+        <button onclick="appendValue('8')" data-key="8" class="calculator-button">8</button>
+        <button onclick="appendValue('9')" data-key="9" class="calculator-button">9</button>
+        <button onclick="appendValue('/')" data-key="/" class="calculator-button">/</button>
+        <button onclick="appendValue('4')" data-key="4" class="calculator-button">4</button>
+        <button onclick="appendValue('5')" data-key="5" class="calculator-button">5</button>
+        <button onclick="appendValue('6')" data-key="6" class="calculator-button">6</button>
+        <button onclick="appendValue('*')" data-key="*" class="calculator-button">*</button>
+        <button onclick="appendValue('1')" data-key="1" class="calculator-button">1</button>
+        <button onclick="appendValue('2')" data-key="2" class="calculator-button">2</button>
+        <button onclick="appendValue('3')" data-key="3" class="calculator-button">3</button>
+        <button onclick="appendValue('-')" data-key="-" class="calculator-button">-</button>
+        <button onclick="appendValue('0')" data-key="0" class="calculator-button">0</button>
+        <button onclick="appendValue('.')">.</button>
+        <button onclick="calculate()" data-key="=" class="calculator-button">=</button>
+        <button onclick="appendValue('+')" data-key="+" class="calculator-button">+</button>
+    </div>
+
+    <script>
+        function appendValue(value) {
+            document.getElementById('display').value += value;
+        }
+
+        function clearDisplay() {
+            document.getElementById('display').value = '';
+        }
+
+        function calculate() {
+            try {
+                document.getElementById('display').value = eval(document.getElementById('display').value);
+            } catch (error) {
+                document.getElementById('display').value = 'Error';
+            }
+        }
+
+        // Event listener for keypress
+        document.addEventListener('keydown', function (event) {
+            const key = event.key;
+            const button = document.querySelector(`button[data-key="${key}"]`);
+
+            // Check if the key is a numeric value, an operator, or Enter/Delete/Backspace/Esc key
+            if (/^[0-9\+\-\*\/\.\=]$/.test(key)) {
+                event.preventDefault(); // Prevent default behavior
+
+                // Handle keypress
+                if (key === '=') {
+                    calculate();
+                } else {
+                    appendValue(key);
+                }
+
+                // Add pressed class to the button
+                if (button) {
+                    button.classList.add('pressed');
+                }
+            } else if (key === 'Delete') {
+                // Handle Delete key to clear all inputs
+                clearDisplay();
+            } else if (key === 'Enter') {
+                // Handle Enter key as equal
+                calculate();
+            } else if (key === 'Escape') {
+                // Handle Esc key to clear all inputs
+                clearDisplay();
+            } else if (key === 'Backspace') {
+                // Handle Backspace key to delete the last input
+                const currentDisplay = document.getElementById('display').value;
+                document.getElementById('display').value = currentDisplay.slice(0, -1);
+            }
+        });
+
+        // Event listener for keyup
+        document.addEventListener('keyup', function (event) {
+            const key = event.key;
+            const button = document.querySelector(`button[data-key="${key}"]`);
+
+            // Remove pressed class from the button
+            if (button) {
+                button.classList.remove('pressed');
+            }
+        });
+    </script>
+</body>
+</html>
