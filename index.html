@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Calculator</title>
+    <title>Roeden Calculator</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -35,8 +35,9 @@
             text-align: center;
         }
 
-        input {
-            width: 93%;
+       input {
+            width: 93%; /* Make the display fill the container */
+            max-width: 100%; /* Set a maximum width to prevent overflow */
             margin-bottom: 10px;
             padding: 10px;
             font-size: 18px;
@@ -49,6 +50,8 @@
         }
 
         button {
+            width: 100%; /* Make all buttons the same width */
+            height: 50px; /* Set a fixed height for the buttons */
             padding: 10px;
             font-size: 16px;
             cursor: pointer;
@@ -57,6 +60,7 @@
             border: 1px solid #999;
             border-radius: 5px;
             transition: background-color 0.3s;
+            box-sizing: border-box; /* Include padding and border in the total width and height */
         }
 
         button:hover,
@@ -64,10 +68,14 @@
             background-color: #f32c09; /* Change the background color on hover or press */
         }
 
-        @media only screen and (max-width: 600px) {
+        @media only screen and (max-width: 500px) {
             #calculator {
                 width: 80%; /* Adjust the width for smaller screens */
-                grid-template-columns: repeat(3, 1fr);
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            input {
+                font-size: 14px; /* Adjust the font size for smaller screens */
             }
         }
     </style>
@@ -75,7 +83,7 @@
 <body>
     
     <div id="calculator">
-        <h1>CASIO</h1>
+        <h1>ALFONSO</h1>
         <input type="text" id="display" disabled>
         <button onclick="clearDisplay()" data-key="C" class="calculator-button">C</button>
         <button onclick="appendValue('7')" data-key="7" class="calculator-button">7</button>
